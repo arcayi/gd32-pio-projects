@@ -5,7 +5,7 @@
 #include <Adafruit_SSD1306.h>
 
 #define SCREEN_WIDTH 128    // OLED display width, in pixels
-#define SCREEN_HEIGHT 64    // OLED display height, in pixels
+#define SCREEN_HEIGHT 32    // OLED display height, in pixels
 #define OLED_RESET -1       // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -38,6 +38,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(F("SSD1306 ..."));
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
   {
@@ -49,7 +50,7 @@ void setup()
   display.setTextColor(SSD1306_WHITE); // Draw white text
   display.clearDisplay();
   display.display();
-  pinMode(ANALOG_IN_PIN, INPUT);
+  // pinMode(ANALOG_IN_PIN, INPUT);
   //default is 10-bit ADC (arduino-compatibility).
   //change to 12-bit ADC
   analogReadResolution(12);
@@ -71,5 +72,6 @@ void loop()
   display.setCursor(0, 0);
   display.println(String(ANALOG_IN_PIN_STR) + ": " + String(val) + " (" + String(in_volts, 2) + "V)");
   display.display();
+  Serial.println(String(ANALOG_IN_PIN_STR) + ": " + String(val) + " (" + String(in_volts, 2) + "V)");
   delay(50);
 }
